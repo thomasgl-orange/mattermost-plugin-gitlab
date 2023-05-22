@@ -375,6 +375,10 @@ func (g *gitlab) GetUnreads(ctx context.Context, user *UserInfo) ([]*internGitla
 
 	notifications := make([]*internGitlab.Todo, 0, len(result))
 	for _, todo := range result {
+		if todo == nil {
+			continue
+		}
+
 		if todo.Project != nil && g.checkGroup(strings.TrimSuffix(todo.Project.PathWithNamespace, "/"+todo.Project.Path)) != nil {
 			continue
 		}
